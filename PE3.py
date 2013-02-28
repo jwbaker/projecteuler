@@ -11,28 +11,21 @@ What is the largest prime factor of the number 600851475143 ?
 
 import math
 
-def isInteger(a):
-    return (a%1 == 0)
-
 def factor(N):
-    a = math.ceil(math.sqrt(N))
-    b = a**2 - N
+    factors = []
     
-    while(not isInteger(math.sqrt(b))):
-        a += 1
-        b = a**2 - N
-    
-    if a - math.sqrt(b) == N:
-        return int(a - math.sqrt(b)), int(a + math.sqrt(b))
-    else:
-        return factor(int(a - math.sqrt(b))), factor(int(a + math.sqrt(b)))
+    for i in range(2, N):
+        while(N % i == 0):
+            factors.append(i)
+            N = N/i
+        if N == 1: break
+    return factors
         
+factors = factor(600851475143)
 
-#def multFactor(n):
-#    if factor(n) == n: print(n)
-#    else:
-#        factors = factor(n)
-#        for f in factors:
-#            return multFactor(f)
+largest = 1
 
-print(factor(600851475143))
+for f in factors:
+    if f > largest: largest = f
+    
+print(largest)
