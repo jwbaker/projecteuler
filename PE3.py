@@ -9,7 +9,6 @@ What is the largest prime factor of the number 600851475143 ?
 @author: Jason Baker
 '''
 
-import math
 
 def factor(N):
     factors = []
