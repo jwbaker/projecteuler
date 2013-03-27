@@ -56,8 +56,8 @@ def grid():
 def largestHoriz():
     largest = 0
     for i in range(0, 20):
-        prod = 1
         for j in range(0, 17):
+            prod = 1
             prod *= grid()[i][j]
             prod *= grid()[i][j + 1]
             prod *= grid()[i][j + 2]
@@ -66,4 +66,53 @@ def largestHoriz():
             if prod > largest: largest = prod
     return largest
             
-print(largestHoriz())
+def largestVert():
+    largest = 0
+    
+    for j in range(0, 20):
+        for i in range(0, 17):
+            prod = 1
+            prod *= grid()[i][j]
+            prod *= grid()[i + 1][j]
+            prod *= grid()[i + 2][j]
+            prod *= grid()[i + 3][j]
+            
+            if prod > largest: largest = prod
+    return largest
+
+def largestDiagDown():
+    largest = 0
+    
+    for i in range(0, 17):
+        for j in range(0, 17):
+            prod = 1
+            prod *= grid()[i][j]
+            prod *= grid()[i + 1][j + 1]
+            prod *= grid()[i + 2][j + 2]
+            prod *= grid()[i + 3][j + 3]
+            
+            if prod > largest: largest = prod
+            
+    return largest
+
+def largestDiagUp():
+    largest = 0
+    
+    for i in range(19, 4, -1):
+        for j in range(0, 17):
+            prod = 1
+            prod *= grid()[i][j]
+            prod *= grid()[i - 1][j + 1]
+            prod *= grid()[i - 2][j + 2]
+            prod *= grid()[i - 3][j + 3]
+            
+            if prod > largest: largest = prod
+            
+    return largest
+            
+largest = 0
+
+for i in [largestHoriz(), largestVert(), largestDiagDown(), largestDiagUp()]:
+    if i > largest: largest = i
+    
+print(largest)
