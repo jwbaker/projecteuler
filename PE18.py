@@ -50,28 +50,68 @@ def triangle():
             [63, 66,4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31],
             [4, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 4, 23]];
             
-def weightTriangle(triangle):
-    newTriangle = [None] * len(triangle);
+class Edge:
+    def __init__(self, u, v, w):
+        self.u = u;
+        self.v = v;
+        self.w = -1 * w;
+
+def toGraph(triangle):
+    graph = [None] * len(triangle);
     
-    for i in range(len(triangle) - 1, -1, -1):
-        newTriangle[i] = [None] * len(triangle[i]);
-        
-        for j in range(0, len(triangle[i])):            
-            if i == len(triangle) - 1:
-                newTriangle[i][j] = [triangle[i][j], triangle[i][j]];
-            else:
-                newTriangle[i][j] = [triangle[i][j],
-                                     newTriangle[i + 1][j][1] + newTriangle[i + 1][j + 1][1]];
-    return newTriangle;
-                
-def largestPath(triangle, xPos):
-    if len(triangle) == 1:
-        return triangle[0][xPos][0];
-    elif triangle[1][xPos][0] < triangle[1][xPos + 1][1]:
-        return triangle[0][xPos][0] + largestPath(triangle[1:], xPos);
-    else:
-        return triangle[0][xPos][0] + largestPath(triangle[1:], xPos + 1);
+    nextIndex = 1;
+    for i in range(0, len(triangle)):
+        graph[i] = [None] * len(triangle[i]);
+        for j in range(0, len(triangle[i])):
+            graph[i][j] = [nextIndex, triangle[i][j]];
+            nextIndex += 1;
+    return [[[0, 0]]] + graph;
+
+def vertices(graph):
+    vertices = [];
     
+    for i in range(0, len(graph)):
+        for j in range(0, len(graph[i])):
+            vertices.append(graph[i][j][0]);
+    return vertices;
+
+def edges(graph):
+    edges = [];
     
-print(largestPath(weightTriangle(triangle()), 0));
+    for i in range(0, len(graph) - 1):
+        for j in range(0, len(graph[i])):
+            edges.append(Edge(graph[i][j][0], graph[i + 1][j][0], graph[i + 1][j][1]));
             
+            if i > 0:
+                edges.append(Edge(graph[i][j][0], graph[i + 1][j + 1][0], graph[i + 1][j + 1][1]));
+    return edges;
+            
+def bellmanFord(vertices, edges, start = 0):
+    infinity = 1000000;
+    dist = [infinity] * len(vertices);
+    dist[start] = 0;
+    
+    for i in range(1, len(vertices) - 1):
+        for e in edges:
+            if dist[e.u] + e.w < dist[e.v]:
+                dist[e.v] = dist[e.u] + e.w;
+                
+    return dist;
+
+def longestCompletePath(paths):
+    lastRow = len(triangle());
+    
+    smallest = 0;
+    
+    for p in paths[len(paths) - lastRow:]:
+        if p < smallest:
+            smallest = p;
+    return -1 *smallest;
+    
+graph = toGraph(triangle());
+vertices = vertices(graph);
+edges = edges(graph);
+
+paths = bellmanFord(vertices, edges);
+
+print(longestCompletePath(paths));
