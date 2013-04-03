@@ -52,7 +52,7 @@ def abundantNumbers(limit):
         
     return result;
 
-listAbundantNumbers = abundantNumbers(2813);
+listAbundantNumbers = abundantNumbers(28123);
 sumAbundantNumberSums = 0;
 checkedSums = [];
 
@@ -63,4 +63,4 @@ for i in range(0, len(listAbundantNumbers)):
             sumAbundantNumberSums += sumIJ;
             checkedSums += [sumIJ];
             
-print(sumOneToN(2813) - sumAbundantNumberSums);
+print(sumOneToN(28123) - sumAbundantNumberSums);
