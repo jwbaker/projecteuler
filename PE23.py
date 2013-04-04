@@ -36,16 +36,16 @@ def arrayContains(arr, target):
     return False;
 
 def isAbundant(num):
-    if sumProperDivisors(num) > num:
-        return True;
-    else:
+    if sumProperDivisors(num) <= num:
         return False;
+    else:
+        return True;
 
 def abundantNumbers(limit):
     result = [];
     num = 12;
     
-    while num <= (limit - 12):
+    while num <= (limit):
         if isAbundant(num):
             result += [num];
         num += 1;
@@ -59,7 +59,7 @@ checkedSums = [];
 for i in range(0, len(listAbundantNumbers)):
     for j in range(0, len(listAbundantNumbers)):
         sumIJ = listAbundantNumbers[i] + listAbundantNumbers[j];
-        if sumIJ <= 2813 and not arrayContains(checkedSums, sumIJ):
+        if sumIJ <= 28123 and not arrayContains(checkedSums, sumIJ):
             sumAbundantNumberSums += sumIJ;
             checkedSums += [sumIJ];
             
