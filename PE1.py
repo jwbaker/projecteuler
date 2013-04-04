@@ -7,11 +7,13 @@ If we list all the natural numbers below 10 that are multiples of 3 or 5, we get
 
 Find the sum of all the multiples of 3 or 5 below 1000.
 
+SOLUTION: 233168
 @author: Jason Baker
 '''
 
 total = 0
 
+# This is a pretty simple problem
 for num in range(0, 1000):
     if num % 3 == 0 or num % 5 == 0:
         total += num

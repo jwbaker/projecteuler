@@ -9,12 +9,15 @@ list to obtain a name score.
 FOr example, when the list is sorted into alphabetical order, COLIN, which is worth 3 + 15 + 12 + 9 + 14 = 53, is the 938th name in the
 list. So, COLIN would obtain a score of 938 x 53 = 49714.
 
-What is the total of all the name scores in the file? 
+What is the total of all the name scores in the file?
+
+SOLUTION: 871198282
 @author: Jason Baker
 '''
 import re;
 import math;
 
+# Hello MergeSort, where have you been all my life?
 def merge(ls, rs):
     result = [];
     i = 0;
@@ -45,11 +48,14 @@ def mergeSort(arr):
 def nameScore(name):
     score = 0;
     for c in name:
+        # Have to check for " marks
+        # I was silly and didn't think to use the split method
         if c != "\"":
             score += ord(c) - ord('A') + 1;
     return score;
 
 buffer = open("names.txt").read();
+# Could have used split() here, but regex works just as well, and likely much faster
 names = re.findall(r'"[^"]*"',buffer);
 
 namesSort = mergeSort(names);

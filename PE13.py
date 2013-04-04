@@ -104,9 +104,12 @@ Work out the first ten digits of the sum of the following one-hundred 50-digit n
 20849603980134001723930671666823555245252804609722
 53503534226472524250874054075591789781264330331690
 
+SOLUTION: 5537376230
 @author: Jason Baker
 '''
 
+# This problem looks terrifying, and it is when your programming language has an upper bound on integers
+# I got around this by implementing a representation of integers as lists of digits, which are unbounded, and then just adding them up
 class infinInt:
     def __init__(self, num = False):
         self.data = []
@@ -252,5 +255,6 @@ total = infinInt();
     
 for i in nums:
     total += infinInt(i);
-    
+
+# Prints out the whole number, so just take the first 10 digits and we're done
 total.print();

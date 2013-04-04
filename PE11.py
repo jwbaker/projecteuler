@@ -28,6 +28,7 @@ In the 20x20 grid below, four numbers along a diagonal line have been marked in 
 The product of these numbers is 26 x 63 x 78 x 14 = 1788696.
 What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20x20 grid?
 
+SOLUTION: 70600674
 @author: Jason Baker
 '''
 
@@ -112,6 +113,10 @@ def largestDiagUp():
             
 largest = 0
 
+# This problem isn't conceptually difficult
+# There are only four different ways to get a sequence of numbers, which I've covered
+# Then we just find the biggest 
+# The algorithm could easily be made more general, but this one works for the specific case
 for i in [largestHoriz(), largestVert(), largestDiagDown(), largestDiagUp()]:
     if i > largest: largest = i
     

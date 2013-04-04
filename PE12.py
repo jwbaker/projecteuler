@@ -17,6 +17,8 @@ Let us list the factors of the first seven triangle numbers:
 
 We can see that 28 is the first triangle number to have over five divisors.
 What is the value of the first triangle number to have over five hundred divisors?
+
+SOLUTION: 76576500
 @author: Jason Baker
 '''
 import math
@@ -33,6 +35,9 @@ triag = 1
 n = 3
 k = 1
 
+# Now I'm getting cleverer than just iterating over every positive integer
+# To generate the triangular numbers, I'm taking advantage of a property of Pascal's Triangle, where the ith triangular number is the kth number of the (n+3)th row
+# I realized later that I could also have used the closed form for the series of natural numbers, but the problem with this solution isn't generating the triangular number
 while(numDivisors(triag) < 500):
     triag = math.factorial(n)/( math.factorial(k) * math.factorial(n - k) )
     n += 1

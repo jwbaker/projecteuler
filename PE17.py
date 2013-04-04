@@ -6,7 +6,10 @@ If the numbers 1 to 5 are written out in words: one, two, three, four, five, the
 
 If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?
 
-NOTE: Do not count spaces or hyphens. For example, 342 (three hundred and forty-two) contains 23 letters and 115 (one hundred and fifteen) contains 20 letters. The use of "and" when writing out numbers is in compliance with British usage. 
+NOTE: Do not count spaces or hyphens. For example, 342 (three hundred and forty-two) contains 23 letters and 115 (one hundred and
+fifteen) contains 20 letters. The use of "and" when writing out numbers is in compliance with British usage.
+
+SOLUTION: 21124
 @author: Jason Baker
 '''
 import math;
@@ -54,17 +57,20 @@ def toDigit(num):
             
     return result;
 
+# This algorithm is based off one from one of my first-year programming classes
+# It only works for numbers less than 100000
 def toStringHelp(arr, num, decimalPosition):
     posns = ["", "", "", "hundred", "thousand"];
     
-    if decimalPosition == 0:
+    if decimalPosition == 0: # if we've reached the end of the number. I don't think this base case is ever actually used, but it's here just in case
         return "";
-    elif decimalPosition == 1:
+    elif decimalPosition == 1: # if the number is a single digit, there's a method for that
         return toDigit(num);
-    elif decimalPosition == 2 and arr[0] == 1:
+    elif decimalPosition == 2 and arr[0] == 1: # likewise if the number is a teen
         return toDigit(num);
-    elif decimalPosition == 2:
+    elif decimalPosition == 2: # or if the number is less than 100 in general
         return toDigit(num); 
+    # If the number is a big round number, such 200 or 300
     elif num - (int(arr[0]) * 10**(decimalPosition - 1)) == 0 or num - (int(arr[0]) * 10**(decimalPosition - 1)) % 10**(decimalPosition - 2) == 0:
         return toDigit(int(arr[0])) + posns[decimalPosition];
     else:

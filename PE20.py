@@ -8,10 +8,14 @@ For example, 10! = 10 x 9 x ... x 3 x 2 x 1 = 3628800,
 and the sum of the digits in the number 10! is 3 + 6 + 2 + 8 + 8 + 0 + 0 = 27.
 
 Find the sum of the digits in the number 100!
+
+SOLUTION: 648
 @author: Jason Baker
 '''
 import math;
 
+# This is one of those questions that would be much more challenging in statically-typed languages
+# In Python, it's simple
 def sumOfDigits(num):
     strNum = str(num);
     digitSum = 0;

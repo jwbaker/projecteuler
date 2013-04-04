@@ -9,6 +9,8 @@ For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 a
 are 1, 2, 4, 71 and 142; so d(284) = 220.
 
 Evaluate the sum of all the amicable numbers under 10000;
+
+SOLUTION: 31626
 @author: Jason Baker
 '''
 
@@ -18,6 +20,7 @@ def arrayContains(arr, target):
             return True;
     return False;
 
+# This is slightly different than my old factorization function, but not by much
 def sumProperDivisors(num):
     divisorSum = 0;
     
@@ -29,15 +32,17 @@ def sumProperDivisors(num):
 amicableList = [];
 sumOfAmicables = 0;
 
-#220 is the smallest amicable number, so we start there
+# 220 is the smallest amicable number, so we start there
 num = 220;
 sumDivisorsOfNum = sumProperDivisors(num);
 
 while(num <= 10000):
+    # I wish I didn't have to keep track of the sums I've already tried, but I unfortunately do because addition is not unique
     if num != sumDivisorsOfNum and not arrayContains(amicableList, sumDivisorsOfNum):
         if sumDivisorsOfNum <= 10000 and num == sumProperDivisors(sumDivisorsOfNum):
             amicableList += [num];
             amicableList += [sumDivisorsOfNum];
+            # Let's just do everything in one step; halves the runtime of the program
             sumOfAmicables += num + sumDivisorsOfNum;
     num += 1;
     sumDivisorsOfNum = sumProperDivisors(num);

@@ -8,10 +8,13 @@ The following iterative sequence is defined for the set of positive integers:
     
 Using the role above and starting with 13, we generate the following sequence:
     13 -> 40 -> 20 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1
-It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms. Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1. 
+It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms. Although it has not been proved yet (Collatz 
+Problem), it is thought that all starting numbers finish at 1. 
 
 Which starting number, under one million, produces the longest chain?
 NOTE: Once the chain starts the terms are allowed to go above one million.
+
+SOLUTION: 837799
 @author: Jason Baker
 '''
 
@@ -28,6 +31,7 @@ def collatzLength(start):
 largestLength = 1;
 largestNum = 1;
 
+# Iterating over one million integers is going to take a while, especially when you have to apply Collatz to each one
 for i in range (1, 1000001):
     nextLength = collatzLength(i);
     if nextLength > largestLength:
