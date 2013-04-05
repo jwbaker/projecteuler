@@ -14,18 +14,17 @@ number that cannot be expressed as the sum of two abundant numbers is less than 
 
 Find the sum of all positive integers which cannot be written as the sum of two abundant numbers.
 
-SOLUTION: ???
+SOLUTION: 4179871
 @author: Jason Baker
 '''
 
-def sumOneToN(N):
-    return int( (N * (N - 1))/2 );
-
-def arrayContains(arr, target):
-    for i in arr:
-        if i == target:
-            return True;
-    return False;
+def countToN(N):
+    result = [None] * N;
+    
+    for i in range(0, N):
+        result[i] = [i + 1, True];
+        
+    return result;
 
 def sumProperDivisors(num):
     divisorSum = 0;
@@ -36,27 +35,31 @@ def sumProperDivisors(num):
     return divisorSum;
 
 def isAbundant(num):
-    return sumProperDivisors(num) > num
+    return sumProperDivisors(num) > num;
 
 def listAbundantsTo(limit):
     result = [];
-    
-    for i in range(12, limit + 1):
+    for i in range(1, limit + 1):
         if isAbundant(i):
-            result += [i];
+            result.append(i);
+            
     return result;
 
 N = 28123;
 
-abundantList = listAbundantsTo(N);
-sumToN = sumOneToN(N);
-checkedSums = [];
+abundants = listAbundantsTo(N);
+nums = countToN(N);
 
-for i in abundantList:
-    for j in abundantList:
-        sumIJ = i + j;
-        if sumIJ <= N and not arrayContains(checkedSums, sumIJ):
-            sumToN -= sumIJ;
-            checkedSums.append(sumIJ);
+for i in range(0, len(abundants)):
+    for j in abundants[i:]:
+        if abundants[i] + j > N:
+            break;
+        nums[abundants[i] + j - 1][1] = False;
+        
+sumNonAbundantSums = 0;
 
-print(sumToN);
+for i in nums:
+    if i[1]:
+        sumNonAbundantSums += i[0];
+    
+print(sumNonAbundantSums)
