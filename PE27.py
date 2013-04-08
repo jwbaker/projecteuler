@@ -58,13 +58,21 @@ def lengthOfPrimeSequence(a, b):
 
 longestSequence = 0
 largestPair = [0, 0]
-for a in range(-999, 1000):
-    for b in range(-999, 1000):
+for a in range(-999, 0):
+    for b in range(1, 1000):
         primeSequence = lengthOfPrimeSequence(a, b)
         print(str(a) + ", " + str(b) + " = " + str(primeSequence))
         if primeSequence > longestSequence:
             longestSequence = primeSequence
             largestPair[0] = a
             largestPair[1] = b
+for a in range(1, 1000):
+    
 print(largestPair[0] * largestPair[1])
-#print(lengthOfPrimeSequence(1, 41))
+
+## These sets are equivalent: opportunity for efficiency
+#print(lengthOfPrimeSequence(-1, 41))
+#print(lengthOfPrimeSequence(-1, -41))
+#
+#print(lengthOfPrimeSequence(-79, 1601))
+#print(lengthOfPrimeSequence(-79, -1601))
