@@ -18,10 +18,9 @@ Where 0.1(6) means 0.166666..., and has a 1-digit recurring cycle. It can be see
 
 Find the value of d < 1000 for which 1/d has the longest recurring cycle in its decimal fraction part.
 
-SOLUTION: ???
+SOLUTION: 983
 @author: Jason Baker
 '''
-import math
 
 def factor(N):
     factors = []
@@ -33,60 +32,98 @@ def factor(N):
         if N == 1: break
     return factors
 
-def largestValue(arr):
-    largest = 0
+def isPrime(num):
+    return len(factor(num)) == 0
+
+def primeFactorization(N):
+    result = []
     
-    for i in arr:
-        if i > largest:
-            largest = i
+    for i in range(2, N):
+        if(N % i == 0) and isPrime(i):
+            k = 1
+            tmp = int( N/i )
             
-    return largest
+            while(tmp/i % 1 == 0):
+                k += 1
+                tmp = int( tmp/i )
+            result += [[i, k]]
+            
+    return result
 
-# Simple function to generate an integer of repeating nines
-def genNinesInt(nines = "", N = 1):
-    for i in range(0, N):
-        nines += "9"
-    return int(nines)
+def genNines(nines):
+    return (10 * nines) + 9
 
-# This method takes advantage of some fun mathematical trick
-#
-# In any repeating decimal where the denominator is a prime greater than 5, the recurring cycle is the numerator of a fraction where the denominator is a series of nines of the same length
-# i.e. 1/7 = 0.(142857) = 142857/999999
-# 
-# When the denominator is not prime, we can split it into prime factors, the length of the recurring cycle is equal to the longest recurring cycle of its prime factors
-
-# When the denominator is evenly divisible by 10, or when it is 2 or 5, it has no repeating cycles and we can ignore it
-def findLengthOfUnitFractionRepetand(denominator):
-    if denominator == 2 or denominator == 5 or denominator%10 == 0:
-        return 0
-    
-    factors = factor(denominator)
-    
-    if len(factors) == 0:
-        nines = 9
-        testVal = nines/denominator
-        
-        while(testVal % 1 != 0):
-            nines = genNinesInt(str( nines ))
-            testVal = nines/denominator
-        return len(str(nines))
+def gcd(a, b):
+    if a < b: return gcd(b, a)
+    elif b == 0: return a
     else:
-        repetands = []
-        for f in factors:
-            repetands.append(findLengthOfUnitFractionRepetand(f))
-        return largestValue(repetands)
+        return gcd(b, a%b)
     
-N = 1000
+def lcm(a, b):
+    return int( (a/gcd(a, b)) * b )
 
-largestCycleIndex = 0
-largestCycleLength = 0
-
-print(findLengthOfUnitFractionRepetand(998))
-
-for i in range(2, N):
-    lengthOfCycle = findLengthOfUnitFractionRepetand(i);
-    print(lengthOfCycle)
-    if lengthOfCycle > largestCycleLength:
-        largestCycleIndex = i
+# Finally getting more use out of this LCM function
+def multLcm(nums):
+    if len(nums) == 1:
+        return nums[0]
+    if len(nums) == 2:
+        return lcm(nums[0], nums[1])
+    else:
+        return lcm(multLcm(nums[1:]), nums[0])
+    
+def findPeriod(denominator):
+    factors = primeFactorization(denominator)
+    # These are all the terminating decimals, so they have no recurring cycles
+    if denominator == 2 or denominator == 5 or (len(factors) == 1 and (factors[0][0] == 2 or factors[0][0] == 5)) or (len(factors) == 2 and factors[0][0] == 2 and factors[1][0] == 5):
+        return 0
+    # Let's check the primitive primes
+    elif len(factors) == 0:
+        i = 1
+        nines = genNines(0)
         
-print(largestCycleIndex)
+        while(nines%denominator > 0):
+            i += 1
+            nines = genNines(nines)
+            
+        return i
+    # Now for composite numbers
+    else:
+        # Fun property of integers not co-prime to 10: when you strip out the 2s and 5s, they're just like any others
+        if denominator % 2 == 0 or denominator % 5 == 0:
+            while denominator/2 % 1 == 0:
+                denominator = int( denominator/2 )
+            while denominator/5 % 1 == 0:
+                denominator = int( denominator/5 )
+            return findPeriod(denominator)
+        
+        # Some special cases that require special handling
+        if denominator == 3:
+            return 1
+        elif denominator == 487:
+            return 486
+        # Now we can get to the real meat of the algorithm
+        primePeriods = []
+        
+        for f in factors:
+            # 3 is still a special case
+            if f[0] == 3:
+                if f[1] == 1:
+                    primePeriods += [1]
+                else:
+                    primePeriods += [ f[0]**(f[1] - 2) ]
+            else:
+                # A funny little property that makes this algorithm nice and quick
+                primePeriods += [ f[0]**(f[1] - 1) * findPeriod(f[0]) ]
+        return multLcm(primePeriods)
+
+#print(findPeriod(867))
+largestCycle = 0
+d = 0
+
+for i in range(2, 1000):
+    cycle = findPeriod(i)
+    if cycle > largestCycle:
+        largestCycle = cycle
+        d = i
+        
+print(d)
