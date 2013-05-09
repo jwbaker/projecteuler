@@ -36,6 +36,8 @@ def isPrime(N):
    return True
 
 def lengthOfPrimeSequence(a, b):
+   if b == 0:
+       return 0
    n = 0
    
    while(True):
@@ -65,5 +67,5 @@ for a in range(-999, 1000):
          longestSequence = currSequence
          longestCoeffecients[0] = a
          longestCoeffecients[1] = b
-
+         
 print longestCoefficients
