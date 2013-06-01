@@ -21,7 +21,7 @@ e.g. |11| = 11 and |-4| = 4
 Find the product of coefficients, a and b, for the quadratic expression that produces the maximum number of primes for consecutive
 values of n, starting with n = 0
 
-SOLUTION: ???
+SOLUTION:-59231
 @author: Jason Baker
 '''
 
@@ -36,36 +36,19 @@ def isPrime(N):
    return True
 
 def lengthOfPrimeSequence(a, b):
-   if b == 0:
-       return 0
    n = 0
-   
-   while(True):
-      if n == 0 or (n + a) == 0:
-         if not isPrime(b): break;
-      elif n == 1 and (n + a) == 1:
-         if not isPrime(b + 1): break;
-      elif n == 1:
-         if not isPrime(b + n + a): break;
-      elif (n + a) == 1:
-         if not isPrime(b + n): break;
-      else:
-         if b % n == 0 or b % (n + a) == 0: break;
-         
+   while(isPrime(n**2 + a*n + b)):
       n += 1
-      
-   return n + 1
-
+   return n - 1
 
 longestSequence = 0
 longestCoeffecients = [-1000, -1000]
-# This is going to be a painfully ineffecient loop, but I will improve it later with symetry
 for a in range(-999, 1000):
    for b in range(-999, 1000):
       currSequence = lengthOfPrimeSequence(a, b)
-      if currSequence < longestSequence:
+      if currSequence > longestSequence:
          longestSequence = currSequence
          longestCoeffecients[0] = a
          longestCoeffecients[1] = b
          
-print longestCoefficients
+print longestCoeffecients[0]*longestCoeffecients[1]
