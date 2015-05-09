@@ -11,10 +11,5 @@ SOLUTION: 233168
 @author: Jason Baker
 '''
 
-total = 0
-
-# This is a pretty simple problem
-for num in range(0, 1000):
-    if num % 3 == 0 or num % 5 == 0:
-        total += num
-print(total)
+numbers = (x for x in range(1, 1000) if x%3 == 0 or x%5 == 0)
+print reduce(lambda x, y: x+y, numbers, 0)
